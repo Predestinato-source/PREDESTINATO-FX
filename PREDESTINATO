@@ -1,0 +1,638 @@
+!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Predestinato FX — El Camino Está Trazado</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0e0a16;
+      --bg2: #0a1628;
+      --bg3: #241d1c;
+      --bg4: #403425;
+      --gold: #977a3e;
+      --gold2: #e2c46c;
+      --text: #f0e8d8;
+      --muted: #a89878;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 22px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .4s, padding .4s, backdrop-filter .4s;
+    }
+    nav.scrolled {
+      background: rgba(14,10,22,.88);
+      backdrop-filter: blur(20px);
+      padding: 14px 48px;
+      border-bottom: 1px solid rgba(151,122,62,.18);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { height: 40px; width: auto; border-radius: 4px; }
+    .nav-logo span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 600;
+      color: var(--gold2); letter-spacing: .18em; text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 500;
+      transition: color .3s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold2); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--gold), var(--gold2)) !important;
+      color: #0e0a16 !important; padding: 10px 22px; border-radius: 2px; font-weight: 600 !important;
+    }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--gold2); transition: .3s; }
+
+    /* ── HERO ── */
+    #inicio {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 120px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 55% at 50% 40%, rgba(151,122,62,.13) 0%, transparent 70%),
+        linear-gradient(180deg, #080612 0%, #0e0a16 55%, #0a1628 100%);
+    }
+    .candles-bg { position: absolute; inset: 0; opacity: .055; pointer-events: none; }
+    .hero-logo {
+      position: relative; z-index: 2;
+      width: 150px; height: 150px; margin-bottom: 36px;
+      border-radius: 8px; overflow: hidden;
+      box-shadow: 0 0 60px rgba(226,196,108,.22), 0 0 120px rgba(151,122,62,.1);
+    }
+    .hero-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-logo-fallback {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #241d1c, #0e0a16);
+      border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-logo-fallback span {
+      font-family: 'Cormorant Garamond', serif; font-size: 5rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--gold), var(--gold2), var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-tag {
+      position: relative; z-index: 2;
+      font-size: .72rem; letter-spacing: .35em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 18px; font-weight: 500;
+    }
+    .hero-title {
+      position: relative; z-index: 2;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 9vw, 7rem); font-weight: 300; line-height: 1.02;
+      margin-bottom: 14px;
+    }
+    .hero-title .gold-text {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 50%, var(--gold) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: shimmer 4s linear infinite;
+    }
+    @keyframes shimmer { to { background-position: 200% center; } }
+    .hero-slogan {
+      position: relative; z-index: 2;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(.95rem, 2.5vw, 1.35rem); font-weight: 300; font-style: italic;
+      color: var(--gold2); letter-spacing: .22em; text-transform: uppercase;
+      margin-bottom: 26px; opacity: .85;
+    }
+    .hero-desc {
+      position: relative; z-index: 2;
+      max-width: 520px; font-size: 1rem; line-height: 1.82;
+      color: var(--muted); margin-bottom: 48px; font-weight: 300;
+    }
+    .hero-ctas { position: relative; z-index: 2; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #0e0a16; padding: 15px 32px;
+      font-size: .9rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      text-decoration: none; border-radius: 2px;
+      box-shadow: 0 4px 24px rgba(226,196,108,.25);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(226,196,108,.4); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: transparent; color: var(--gold2);
+      padding: 14px 32px; font-size: .9rem; font-weight: 500;
+      letter-spacing: .08em; text-transform: uppercase; text-decoration: none;
+      border: 1px solid rgba(226,196,108,.35); border-radius: 2px;
+      transition: background .3s, border-color .3s, transform .3s;
+    }
+    .btn-secondary:hover { background: rgba(226,196,108,.08); border-color: var(--gold2); transform: translateY(-2px); }
+    .scroll-hint {
+      position: absolute; bottom: 38px; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: .45; animation: bob 2.2s ease-in-out infinite;
+    }
+    .scroll-hint span { font-size: .65rem; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); }
+    .scroll-hint-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); }
+    @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(7px)} }
+
+    /* ── SHARED ── */
+    section { padding: 100px 24px; }
+    .inner { max-width: 1200px; margin: 0 auto; }
+    .tag { font-size: .72rem; letter-spacing: .35em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 16px; display: block; }
+    .title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 400; line-height: 1.1; margin-bottom: 22px; }
+    .gold-line { width: 56px; height: 2px; background: linear-gradient(90deg, var(--gold), var(--gold2)); margin-bottom: 30px; }
+    .sep { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-r { opacity: 0; transform: translateX(40px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal-r.visible { opacity: 1; transform: translateX(0); }
+    .d1{transition-delay:.1s} .d2{transition-delay:.2s} .d3{transition-delay:.3s} .d4{transition-delay:.4s}
+
+    /* ── NOSOTROS ── */
+    #nosotros { background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%); position: relative; overflow: hidden; }
+    .nosotros-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .nosotros-text p { font-size: 1rem; line-height: 1.9; color: var(--muted); font-weight: 300; margin-bottom: 20px; }
+    .nosotros-text p strong { color: var(--gold2); font-weight: 500; }
+    .pilares { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(151,122,62,.2); border: 1px solid rgba(151,122,62,.2); }
+    .pilar { background: rgba(14,10,22,.95); padding: 28px; transition: background .3s; }
+    .pilar:hover { background: rgba(36,29,28,.95); }
+    .pilar-icon { font-size: 1.4rem; margin-bottom: 10px; }
+    .pilar h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--gold2); margin-bottom: 8px; font-weight: 500; }
+    .pilar p { font-size: .85rem; color: var(--muted); line-height: 1.6; margin: 0; }
+    .parallax-blob { position: absolute; inset: -20%; background: radial-gradient(ellipse at center, rgba(151,122,62,.05) 0%, transparent 70%); pointer-events: none; will-change: transform; }
+
+    /* ── SERVICIOS ── */
+    #servicios { background: var(--bg); position: relative; }
+    .servicios-header { text-align: center; margin-bottom: 60px; }
+    .servicios-header .gold-line { margin: 0 auto 30px; }
+    .servicios-header .sub { color: var(--muted); max-width: 480px; margin: 0 auto; font-weight: 300; line-height: 1.8; }
+    .cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: rgba(151,122,62,.13); }
+    .card {
+      background: linear-gradient(145deg, #0e0a16, #12101e);
+      padding: 48px 36px; position: relative; overflow: hidden;
+      transition: transform .4s, background .4s; cursor: default;
+    }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0; transition: opacity .4s;
+    }
+    .card:hover::before { opacity: 1; }
+    .card:hover { transform: translateY(-6px); background: linear-gradient(145deg, #13101f, #1a1528); }
+    .card-num {
+      font-family: 'Cormorant Garamond', serif; font-size: 3.8rem; font-weight: 300;
+      color: rgba(151,122,62,.13); line-height: 1; margin-bottom: 16px; transition: color .4s;
+    }
+    .card:hover .card-num { color: rgba(226,196,108,.18); }
+    .card-icon { margin-bottom: 18px; }
+    .card-icon svg { width: 38px; height: 38px; }
+    .card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 500; color: var(--text); margin-bottom: 14px; line-height: 1.2; }
+    .card p { font-size: .9rem; line-height: 1.82; color: var(--muted); font-weight: 300; }
+    .card-badge {
+      display: inline-block; margin-top: 22px;
+      font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid rgba(151,122,62,.3); padding: 6px 14px; border-radius: 2px;
+    }
+
+    /* ── UNIRSE ── */
+    #unirse {
+      background: linear-gradient(135deg, var(--bg2) 0%, var(--bg) 50%, var(--bg3) 100%);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    #unirse::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(151,122,62,.08) 0%, transparent 70%); }
+    #unirse .inner { position: relative; z-index: 2; }
+    .unirse-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 300; line-height: 1.05; margin-bottom: 16px; }
+    .unirse-title em { font-style: italic; background: linear-gradient(135deg, var(--gold), var(--gold2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .unirse-sub { font-size: 1.05rem; color: var(--muted); max-width: 460px; margin: 0 auto 48px; line-height: 1.75; font-weight: 300; }
+    .unirse-ctas { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+    .btn-tg {
+      display: inline-flex; align-items: center; gap: 11px;
+      background: #229ED9; color: #fff; padding: 16px 36px;
+      font-size: .95rem; font-weight: 600; text-decoration: none; border-radius: 2px;
+      transition: transform .3s, box-shadow .3s; letter-spacing: .04em;
+    }
+    .btn-tg:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(34,158,217,.38); }
+    .btn-dc {
+      display: inline-flex; align-items: center; gap: 11px;
+      background: #5865F2; color: #fff; padding: 16px 36px;
+      font-size: .95rem; font-weight: 600; text-decoration: none; border-radius: 2px;
+      transition: transform .3s, box-shadow .3s; letter-spacing: .04em;
+    }
+    .btn-dc:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(88,101,242,.38); }
+    .free-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(151,122,62,.1); border: 1px solid rgba(151,122,62,.28);
+      color: var(--gold2); padding: 10px 24px; border-radius: 100px;
+      font-size: .83rem; font-weight: 500; letter-spacing: .1em;
+    }
+
+    /* ── CONTACTO ── */
+    #contacto { background: var(--bg); position: relative; }
+    .contacto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .ci h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; margin-bottom: 30px; }
+    .ci-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 22px; }
+    .ci-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: rgba(151,122,62,.1); border: 1px solid rgba(151,122,62,.2);
+      border-radius: 2px; display: flex; align-items: center; justify-content: center;
+    }
+    .ci-icon svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; stroke-width: 2; }
+    .ci-lbl { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; display: block; }
+    .ci-val { font-size: .94rem; color: var(--text); font-weight: 300; }
+    .ci-val a { color: var(--text); text-decoration: none; transition: color .3s; }
+    .ci-val a:hover { color: var(--gold2); }
+    .redes { margin-top: 38px; }
+    .redes-lbl { font-size: .7rem; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; display: block; }
+    .redes-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .red-a {
+      display: flex; align-items: center; gap: 8px; padding: 9px 16px;
+      border: 1px solid rgba(151,122,62,.2); border-radius: 2px;
+      text-decoration: none; color: var(--muted); font-size: .84rem;
+      transition: border-color .3s, color .3s, background .3s;
+    }
+    .red-a:hover { border-color: var(--gold); color: var(--gold2); background: rgba(151,122,62,.07); }
+    .red-a svg { width: 15px; height: 15px; fill: currentColor; }
+    .cf { background: rgba(36,29,28,.4); border: 1px solid rgba(151,122,62,.14); padding: 40px; }
+    .cf h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; margin-bottom: 26px; }
+    .fg { margin-bottom: 18px; }
+    .fg label { display: block; font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .fg input, .fg textarea {
+      width: 100%; background: rgba(14,10,22,.8); border: 1px solid rgba(151,122,62,.2);
+      color: var(--text); padding: 13px 16px;
+      font-family: 'Space Grotesk', sans-serif; font-size: .9rem; outline: none;
+      transition: border-color .3s; border-radius: 0;
+    }
+    .fg input:focus, .fg textarea:focus { border-color: var(--gold); }
+    .fg input::placeholder, .fg textarea::placeholder { color: rgba(168,152,120,.35); }
+    .fg textarea { height: 116px; resize: vertical; }
+    .btn-send {
+      width: 100%; background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #0e0a16; border: none; padding: 15px;
+      font-family: 'Space Grotesk', sans-serif; font-size: .88rem; font-weight: 700;
+      letter-spacing: .15em; text-transform: uppercase; cursor: pointer;
+      transition: opacity .3s, transform .3s;
+    }
+    .btn-send:hover { opacity: .85; transform: translateY(-1px); }
+
+    /* ── FOOTER ── */
+    footer { background: #060410; border-top: 1px solid rgba(151,122,62,.14); padding: 38px 24px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; }
+    .footer-brand { display: flex; align-items: center; gap: 11px; }
+    .footer-brand img { height: 30px; border-radius: 4px; }
+    .footer-brand span { font-family: 'Cormorant Garamond', serif; font-size: .95rem; color: var(--gold); letter-spacing: .12em; text-transform: uppercase; }
+    .footer-copy { font-size: .76rem; color: rgba(168,152,120,.45); text-align: center; }
+    .footer-slogan { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: .88rem; color: var(--gold); opacity: .65; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      nav{padding:16px 24px}
+      nav.scrolled{padding:12px 24px}
+      .nav-links{display:none}
+      .hamburger{display:flex}
+      .nav-links.open{
+        display:flex;flex-direction:column;
+        position:fixed;inset:0;
+        background:rgba(14,10,22,.97);
+        align-items:center;justify-content:center;gap:32px;z-index:99;
+      }
+      .nav-links.open a{font-size:1.2rem}
+      .nosotros-grid,.contacto-grid{grid-template-columns:1fr;gap:48px}
+      .cards{grid-template-columns:1fr}
+      .pilares{grid-template-columns:1fr}
+    }
+    @media(max-width:600px){
+      section{padding:72px 20px}
+      .hero-logo{width:120px;height:120px}
+      .unirse-ctas{flex-direction:column;align-items:center}
+      .redes-row{flex-wrap:wrap}
+      .footer-inner{flex-direction:column;text-align:center}
+      .cf{padding:26px 18px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#inicio" class="nav-logo">
+    <img src="assets/logo.png" alt="Predestinato FX" onerror="this.style.display='none'">
+    <span>Predestinato FX</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="https://t.me/+a1c2TTUnt6JkNDE8" target="_blank" class="nav-cta">Unirse</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="inicio">
+  <div class="hero-bg"></div>
+  <div class="candles-bg">
+    <svg width="100%" height="100%" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <g opacity=".9">
+        <line x1="80" y1="260" x2="80" y2="500" stroke="#e2c46c" stroke-width="1.5"/>
+        <rect x="72" y="290" width="16" height="130" fill="#c0392b"/>
+        <line x1="145" y1="200" x2="145" y2="440" stroke="#e2c46c" stroke-width="1.5"/>
+        <rect x="137" y="215" width="16" height="140" fill="#e2c46c"/>
+        <line x1="210" y1="160" x2="210" y2="380" stroke="#e2c46c" stroke-width="1.5"/>
+        <rect x="202" y="170" width="16" height="110" fill="#e2c46c"/>
+        <line x1="275" y1="180" x2="275" y2="340" stroke="#e2c46c" stroke-width="1.5"/>
+        <rect x="267" y="190" width="16" height="80" fill="#c0392b"/>
+        <line x1="340" y1="120" x2="340" y2="310" stroke="#e2c46c" stroke-width="1.5"/>
+        <rect x="332" y="130" width="16" height="130" fill="#e2c46c"/>
+      </g>
+      <g opacity=".5">
+        <line x1="1060" y1="360" x2="1060" y2="560" stroke="#e2c46c" stroke-width="1.5"/>
+        <rect x="1052" y="390" width="16" height="110" fill="#c0392b"/>
+        <line x1="1125" y1="290" x2="1125" y2="500" stroke="#e2c46c" stroke-width="1.5"/>
+        <rect x="1117" y="305" width="16" height="140" fill="#e2c46c"/>
+        <line x1="1190" y1="230" x2="1190" y2="420" stroke="#e2c46c" stroke-width="1.5"/>
+        <rect x="1182" y="240" width="16" height="120" fill="#e2c46c"/>
+        <line x1="1255" y1="170" x2="1255" y2="360" stroke="#e2c46c" stroke-width="1.5"/>
+        <rect x="1247" y="182" width="16" height="100" fill="#e2c46c"/>
+        <line x1="1320" y1="110" x2="1320" y2="320" stroke="#e2c46c" stroke-width="1.5"/>
+        <rect x="1312" y="122" width="16" height="150" fill="#e2c46c"/>
+      </g>
+      <polyline points="80,350 145,280 210,220 275,240 340,195 460,150 580,120 720,90 880,60 1060,40 1200,20"
+        fill="none" stroke="#977a3e" stroke-width="1.5" stroke-dasharray="7,5" opacity=".28"/>
+    </svg>
+  </div>
+
+  <div class="hero-logo reveal">
+    <img src="assets/logo.png" alt="Predestinato FX"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="hero-logo-fallback" style="display:none"><span>P</span></div>
+  </div>
+
+  <div class="hero-tag reveal d1">Trading · Comunidad · Conocimiento</div>
+  <h1 class="hero-title reveal d2">Predestinato <span class="gold-text">FX</span></h1>
+  <p class="hero-slogan reveal d3">El camino está trazado</p>
+  <p class="hero-desc reveal d4">Comunidad de trading 100% gratuita. Señales en tiempo real, estrategias que funcionan y soporte constante para cada integrante.</p>
+
+  <div class="hero-ctas reveal d4">
+    <a href="https://t.me/+a1c2TTUnt6JkNDE8" target="_blank" class="btn-primary">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.24 13.994l-2.94-.92c-.64-.203-.653-.64.136-.953l11.49-4.43c.533-.194 1-.121.636.557z"/></svg>
+      Unirse al Telegram
+    </a>
+    <a href="https://discord.gg/jy3Ks6e8C" target="_blank" class="btn-secondary">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      Unirse al Discord
+    </a>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-hint-line"></div>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section id="nosotros" style="position:relative;overflow:hidden;background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)">
+  <div class="parallax-blob" id="pblob"></div>
+  <div class="inner">
+    <div class="nosotros-grid">
+      <div class="nosotros-text">
+        <span class="tag reveal">Quiénes somos</span>
+        <h2 class="title reveal d1">Una comunidad construida para <em style="font-style:italic;color:var(--gold2)">ganar</em></h2>
+        <div class="gold-line reveal d2"></div>
+        <p class="reveal d2"><strong>Predestinato FX</strong> nació con una convicción: el conocimiento del trading no debería estar reservado para unos pocos. Somos una comunidad donde cada operación es una lección y cada miembro es parte del éxito colectivo.</p>
+        <p class="reveal d3">Compartimos <strong>señales en tiempo real</strong>, enseñamos estrategias probadas en los mercados y damos soporte cercano a cada integrante. Sin costes, sin barreras — solo resultados.</p>
+        <p class="reveal d4">El mercado tiene reglas, y nosotros las conocemos. <strong>El camino está trazado</strong> — únete y recórrelo con nosotros.</p>
+      </div>
+      <div class="reveal-r">
+        <div class="pilares">
+          <div class="pilar"><div class="pilar-icon">📈</div><h4>Análisis Técnico</h4><p>Patrones, niveles clave y estructura de mercado para anticipar movimientos.</p></div>
+          <div class="pilar"><div class="pilar-icon">⚡</div><h4>Tiempo Real</h4><p>Señales y alertas en el momento exacto para no perder ninguna oportunidad.</p></div>
+          <div class="pilar"><div class="pilar-icon">🎯</div><h4>Disciplina</h4><p>Gestión del riesgo y control emocional — las herramientas más importantes del trader.</p></div>
+          <div class="pilar"><div class="pilar-icon">🤝</div><h4>Comunidad</h4><p>Aprendizaje colaborativo donde el progreso de uno impulsa el de todos.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="sep"></div>
+  <div class="inner">
+    <div class="servicios-header">
+      <span class="tag reveal">Lo que ofrecemos</span>
+      <h2 class="title reveal d1">Todo lo que necesitas<br>para operar con <span style="background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">confianza</span></h2>
+      <div class="gold-line reveal d2"></div>
+      <p class="sub reveal d2">Completamente gratuito. Sin suscripciones, sin comisiones — solo conocimiento real del mercado.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal d1">
+        <div class="card-num">01</div>
+        <div class="card-icon">
+          <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="3,30 10,18 17,24 25,10 35,16" stroke="#e2c46c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="35" cy="16" r="3" fill="#e2c46c"/>
+            <rect x="6" y="22" width="5" height="13" fill="#977a3e" opacity=".7"/>
+            <rect x="15" y="18" width="5" height="17" fill="#e2c46c" opacity=".9"/>
+            <rect x="24" y="14" width="5" height="21" fill="#e2c46c" opacity=".9"/>
+          </svg>
+        </div>
+        <h3>Señales en Tiempo Real</h3>
+        <p>Recibe alertas de entrada y salida al momento exacto. Analizamos los mercados constantemente para que tú solo tengas que ejecutar.</p>
+        <span class="card-badge">Gratuito</span>
+      </div>
+      <div class="card reveal d2">
+        <div class="card-num">02</div>
+        <div class="card-icon">
+          <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="7" width="30" height="24" rx="2" stroke="#e2c46c" stroke-width="2"/>
+            <line x1="4" y1="13" x2="34" y2="13" stroke="#e2c46c" stroke-width="1" opacity=".35"/>
+            <line x1="10" y1="20" x2="18" y2="20" stroke="#977a3e" stroke-width="2" stroke-linecap="round"/>
+            <line x1="10" y1="25" x2="22" y2="25" stroke="#977a3e" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="28" cy="20" r="4" stroke="#e2c46c" stroke-width="2"/>
+            <line x1="31" y1="23" x2="34" y2="26" stroke="#e2c46c" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Estrategias de Trading</h3>
+        <p>Aprende los sistemas que usamos para leer el mercado. SMC, price action, estructura — formación real, no teoría vacía.</p>
+        <span class="card-badge">Gratuito</span>
+      </div>
+      <div class="card reveal d3">
+        <div class="card-num">03</div>
+        <div class="card-icon">
+          <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 9C7 6.8 8.8 5 11 5L27 5C29.2 5 31 6.8 31 9L31 23C31 25.2 29.2 27 27 27L21 27L15 33L15 27L11 27C8.8 27 7 25.2 7 23Z" stroke="#e2c46c" stroke-width="2"/>
+            <circle cx="14" cy="16" r="2" fill="#977a3e"/>
+            <circle cx="19" cy="16" r="2" fill="#e2c46c"/>
+            <circle cx="24" cy="16" r="2" fill="#977a3e"/>
+          </svg>
+        </div>
+        <h3>Soporte Continuo</h3>
+        <p>¿Dudas sobre una operación? El equipo y la comunidad están disponibles para orientarte en cada paso de tu camino.</p>
+        <span class="card-badge">Gratuito</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ÚNETE -->
+<section id="unirse">
+  <div class="inner">
+    <span class="tag reveal" style="display:block;margin-bottom:14px">Sé parte del movimiento</span>
+    <h2 class="unirse-title reveal d1">Tu destino en<br><em>los mercados</em><br>comienza aquí</h2>
+    <p class="unirse-sub reveal d2">Sin coste. Sin excusas. Solo tú, los mercados y una comunidad que te respalda.</p>
+    <div class="unirse-ctas reveal d3">
+      <a href="https://t.me/+a1c2TTUnt6JkNDE8" target="_blank" class="btn-tg">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.24 13.994l-2.94-.92c-.64-.203-.653-.64.136-.953l11.49-4.43c.533-.194 1-.121.636.557z"/></svg>
+        Telegram — Únete Gratis
+      </a>
+      <a href="https://discord.gg/jy3Ks6e8C" target="_blank" class="btn-dc">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        Discord — Únete Gratis
+      </a>
+    </div>
+    <div class="reveal d4">
+      <span class="free-pill">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        100% gratuito · Sin compromisos · Sin spam
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="sep"></div>
+  <div class="inner">
+    <div class="contacto-grid">
+      <div class="ci">
+        <span class="tag reveal">Contacto</span>
+        <h2 class="title reveal d1">Estamos<br>para ayudarte</h2>
+        <div class="gold-line reveal d2"></div>
+        <div class="ci-item reveal d2">
+          <div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div><span class="ci-lbl">Email</span><span class="ci-val"><a href="mailto:esmillcanario8@gmail.com">esmillcanario8@gmail.com</a></span></div>
+        </div>
+        <div class="ci-item reveal d3">
+          <div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.57 3.47 2 2 0 0 1 3.54 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.54a16 16 0 0 0 6.56 6.56l.91-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div><span class="ci-lbl">WhatsApp / Teléfono</span><span class="ci-val"><a href="tel:+447308250125">+44 7308 250 125</a></span></div>
+        </div>
+        <div class="redes reveal d4">
+          <span class="redes-lbl">Redes sociales</span>
+          <div class="redes-row">
+            <a href="https://t.me/+a1c2TTUnt6JkNDE8" target="_blank" class="red-a">
+              <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.24 13.994l-2.94-.92c-.64-.203-.653-.64.136-.953l11.49-4.43c.533-.194 1-.121.636.557z"/></svg>
+              Telegram
+            </a>
+            <a href="https://discord.gg/jy3Ks6e8C" target="_blank" class="red-a">
+              <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+              Discord
+            </a>
+            <a href="https://www.tiktok.com/@esmillx" target="_blank" class="red-a">
+              <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.1 8.1 0 004.78 1.54V6.78a4.85 4.85 0 01-1.01-.09z"/></svg>
+              TikTok
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="cf reveal-r">
+        <h3>Envíanos un mensaje</h3>
+        <form onsubmit="handleSubmit(event)">
+          <div class="fg"><label for="nombre">Nombre</label><input type="text" id="nombre" placeholder="Tu nombre" required></div>
+          <div class="fg"><label for="email">Email</label><input type="email" id="email" placeholder="tu@email.com" required></div>
+          <div class="fg"><label for="msg">Mensaje</label><textarea id="msg" placeholder="¿En qué podemos ayudarte?" required></textarea></div>
+          <button type="submit" class="btn-send" id="sendBtn">Enviar mensaje</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/logo.png" alt="Predestinato FX" onerror="this.style.display='none'">
+      <span>Predestinato FX</span>
+    </div>
+    <p class="footer-copy">© 2026 Predestinato FX · Todos los derechos reservados</p>
+    <p class="footer-slogan">El camino está trazado</p>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60), {passive:true});
+
+  // Hamburger
+  const burger = document.getElementById('hamburger');
+  const links = document.getElementById('navLinks');
+  burger.addEventListener('click', () => {
+    links.classList.toggle('open');
+    document.body.style.overflow = links.classList.contains('open') ? 'hidden' : '';
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    links.classList.remove('open');
+    document.body.style.overflow = '';
+  }));
+
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal, .reveal-r');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, {threshold: 0.1, rootMargin: '0px 0px -40px 0px'});
+  revealEls.forEach(el => io.observe(el));
+
+  // Parallax blob
+  const blob = document.getElementById('pblob');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduced && blob) {
+    window.addEventListener('scroll', () => {
+      const s = blob.parentElement;
+      const prog = -s.getBoundingClientRect().top / (s.offsetHeight + innerHeight);
+      blob.style.transform = `translateY(${prog * 70}px)`;
+    }, {passive:true});
+  }
+
+  // Active nav
+  const secs = document.querySelectorAll('section[id]');
+  const anchors = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    secs.forEach(s => { if (scrollY >= s.offsetTop - 130) cur = s.id; });
+    anchors.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + cur); });
+  }, {passive:true});
+
+  // Form
+  function handleSubmit(e) {
+    e.preventDefault();
+    const n = document.getElementById('nombre').value;
+    const em = document.getElementById('email').value;
+    const m = document.getElementById('msg').value;
+    window.location.href = `mailto:esmillcanario8@gmail.com?subject=${encodeURIComponent('Mensaje de ' + n)}&body=${encodeURIComponent('Nombre: ' + n + '\nEmail: ' + em + '\n\nMensaje:\n' + m)}`;
+    const btn = document.getElementById('sendBtn');
+    btn.textContent = '¡Mensaje enviado!';
+    btn.style.background = 'linear-gradient(135deg,#2ecc71,#27ae60)';
+    setTimeout(() => { btn.textContent = 'Enviar mensaje'; btn.style.background = ''; e.target.reset(); }, 3000);
+  }
+</script>
+</body>
+</html>
